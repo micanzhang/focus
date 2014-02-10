@@ -1,7 +1,8 @@
-import web
-from app.routes import urls
+import sys
+from app import app
 
-app = web.application(urls, globals())
+reload(sys)
+sys.setdefaultencoding('UTF-8')
 
 if __name__ == "__main__":
     app.run()

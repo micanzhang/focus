@@ -15,6 +15,14 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+USE `focus`;
+
+CREATE USER 'focus'@'%' IDENTIFIED BY 'focus';
+
+GRANT SELECT, INSERT, UPDATE, REFERENCES, DELETE, CREATE, DROP, ALTER, INDEX, TRIGGER, CREATE VIEW, SHOW VIEW, EXECUTE, ALTER ROUTINE, CREATE ROUTINE, CREATE TEMPORARY TABLES, LOCK TABLES, EVENT ON `focus`.* TO 'focus'@'%';
+
+GRANT GRANT OPTION ON `focus`.* TO 'focus'@'%';
+
 --
 -- Table structure for table `post`
 --
@@ -50,3 +58,14 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2014-02-10 10:03:17
+
+-- ----------------------------
+-- Table structure for `session`
+-- ----------------------------
+DROP TABLE IF EXISTS `session`;
+CREATE TABLE `session` (
+  `session_id` char(128) NOT NULL,
+  `atime` datetime NOT NULL,
+  `data` text,
+  PRIMARY KEY (`session_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %} Focus - post{% endblock %}
+
+{% block content %}
+
+<div>
+    <form action="/post" method="POST" class="form-control">
+
+        <textarea name="content"></textarea>
+        <input type="submit" value="Submit" class="btn btn-primary">
+    </form>
+{% for post in posts %}
+    <div class="alert alert-info">
+    {{post.content}}
+    </div>
+{% endfor %}
+</div>
+{% endblock %}
+

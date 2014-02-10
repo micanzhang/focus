@@ -1,24 +1,18 @@
 __author__ = 'micanzhang'
 
-import web
+from sqlalchemy import create_engine
+import sqlalchemy.engine.url as url
 
+host = 'localhost'
 database = 'focus'
-username = ''
-password = ''
+username = 'focus'
+password = 'focus'
 
-
-class Model:
-    db = None
-    tablename = ''
-
-    def __init__(self):
-        db = web.database(dbn='mysql', db=database, user=username, pw=password)
-
-    def query(self):
-        pass
-
-    def save(self):
-        pass
-
-    def delete(self):
-        pass
+engine_url = url.URL(
+    drivername='mysql+mysqldb',
+    host=host,
+    database=database,
+    username=username,
+    password=password,
+)
+engine = create_engine(engine_url, encoding='utf-8',convert_unicode=True)
