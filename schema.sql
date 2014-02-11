@@ -15,9 +15,11 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-DROP DATABASE IF NOT EXISTS `focus`;
+DROP DATABASE IF EXISTS `focus`;
 
 CREATE DATABASE `focus`;
+
+USE `focus`;
 
 GRANT ALL PRIVILEGES ON `focus`.* TO 'focus'@'%' IDENTIFIED BY 'focus';
 GRANT ALL PRIVILEGES ON `focus`.* TO 'focus'@'localhost' IDENTIFIED BY 'focus';
@@ -28,8 +30,8 @@ GRANT ALL PRIVILEGES ON `focus`.* TO 'focus'@'localhost' IDENTIFIED BY 'focus';
 DROP TABLE IF EXISTS `follow`;
 CREATE TABLE `follow` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `follower` varchar(32) NOT NULL COMMENT '鍏虫敞鑰?,
-  `following` varchar(32) NOT NULL DEFAULT '' COMMENT '琚叧娉ㄨ€?,
+  `follower` varchar(32) NOT NULL,
+  `following` varchar(32) NOT NULL,
   `create_time` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `follower` (`follower`,`following`)
