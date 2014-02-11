@@ -2,6 +2,7 @@ __author__ = 'micanzhang'
 
 from app.controller import render
 from app.model.post import Post
+from app import session
 import web
 import time
 
@@ -16,7 +17,11 @@ class PostAction:
             return "invalid post."
 
         content = data['content']
-        p = Post(content=content, create_time=int(time.time()))
+        p = Post(
+            username=session.user.username,
+            content=content,
+            create_time=int(time.time())
+        )
         web.ctx.orm.add(p)
         web.seeother('/post')
 
