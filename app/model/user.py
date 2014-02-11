@@ -13,7 +13,7 @@ class User(Base):
     __tablename__ = 'user'
 
     id = Column(mysql.INTEGER, primary_key=True)
-    username = Column(mysql.VARCHAR(64))
+    username = Column(mysql.VARCHAR(32))
     _password = Column('password', mysql.VARCHAR(128))
     email = Column(mysql.VARCHAR(64))
     status = Column(mysql.TINYINT, default=0)

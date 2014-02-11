@@ -1,18 +1,9 @@
 __author__ = 'micanzhang'
 
-from sqlalchemy import create_engine
-import sqlalchemy.engine.url as url
+from dBSession import DBSession
+from post import Post
+from user import User
+from follow import Follow
+from mention import Mention
+from post_topic import PostTopic
 
-host = 'localhost'
-database = 'focus'
-username = 'focus'
-password = 'focus'
-
-engine_url = url.URL(
-    drivername='mysql+mysqldb',
-    host=host,
-    database=database,
-    username=username,
-    password=password,
-)
-engine = create_engine(engine_url, encoding='utf-8',convert_unicode=True)

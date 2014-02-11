@@ -1,45 +1,46 @@
-from app.controller import render
-from app.model.post import Post
-from app.model.user import User
+from app.model import Post, User
+from app.helper import BaseAction
+from app.constants import Roles
 import web
-from app import session
 
-class IndexAction:
+
+
+class IndexAction(BaseAction):
+    access_role = Roles.GUEST
+
     def GET(self):
         posts = web.ctx.orm.query(Post).all()
-        dir(posts)
-        return render("index.html")
+        return self.render("index.html")
 
-class SignInAction:
-    def __init__(self):
-        if 1 == session.login:
+class SignInAction(BaseAction):
+    def access_filter(self):
+        if self.role > Roles.GUEST:
             web.seeother('/profile')
 
 
     def GET(self):
-        return render('signin.html')
+        return self.render('signin.html')
 
     def POST(self):
         data = web.input()
         user = web.ctx.orm.query(User).filter(User.email==data.email).first()
         if user and user.password == user.password_hash(data.password):
-            session.login = 1
-            session.user = user
+            self.session.login = 1
+            self.session.user = user
             return web.seeother('/')
         else:
-            return render('signin.html')
+            return self.render('signin.html')
 
 class SignUpAction:
-    def __init__(self):
-        if 1 == session.login:
+    def access_filter(self):
+        if self.role > Roles.GUEST:
             web.seeother('/profile')
 
     def GET(self):
-        return render('signup.html')
+        return self.render('signup.html')
 
     def POST(self):
         data = web.input()
-        print data.password
         user = User(
             username=data.username,
             email=data.email,
@@ -49,12 +50,11 @@ class SignUpAction:
         if web.ctx.orm.add(user):
             return web.seeother('/')
 
-        return render('signup.html')
+        return self.render('signup.html')
 
 class SignOutAction:
     def GET(self):
-        if 1== session.login:
-            session.login = 0
-            session.user = None
+        self.session.login = Roles.GUEST
+        self.session.user = None
         return web.seeother('/signin')
 
