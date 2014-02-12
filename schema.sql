@@ -125,3 +125,14 @@ CREATE TABLE `user` (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
+
+-- ----------------------------
+-- Table structure for `post_geo`
+-- ----------------------------
+DROP TABLE IF EXISTS `post_geo`;
+CREATE TABLE `post_geo` (
+  `post_id` int(11) NOT NULL,
+  `lat` float(10,6) NOT NULL,
+  `lng` float(10,6) NOT NULL,
+  PRIMARY KEY (`post_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;

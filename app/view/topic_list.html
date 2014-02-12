@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %} Focus events!{% endblock %}
+
+{% block content %}
+<h2>Topic list</h2>
+{% for topic in topics %}
+<a href="/topic/{{topic[0]}}">{{topic[0]}}</a>
+{% endfor %}
+{% endblock %}
+

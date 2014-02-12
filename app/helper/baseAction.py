@@ -4,6 +4,7 @@ import web
 import os
 from app.constants import Roles
 from jinja2 import Environment,FileSystemLoader
+from app.helper import filter
 
 class BaseAction:
     access_role = Roles.AUTHROIZED
@@ -20,11 +21,13 @@ class BaseAction:
     def render(self, template_name, **context):
         extensions = context.pop('extensions', [])
         globals = context.pop('globals', {})
+        globals['ctx'] = web.ctx
+        globals['session'] = self.session
 
         jinja_env = Environment(
             loader=FileSystemLoader(os.path.join(os.path.dirname(__file__), '../view')),
             extensions=extensions,
         )
-
-        jinja_env.globals = globals.update(globals)
+        jinja_env.globals.update(globals)
+        jinja_env.filters['strftime'] = filter.strftime
         return jinja_env.get_template(template_name).render(context)

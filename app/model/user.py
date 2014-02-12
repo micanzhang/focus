@@ -6,6 +6,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.ext.hybrid import hybrid_property
 import hashlib
 import time
+import web
+from app.constants import Roles
 
 Base = declarative_base()
 
@@ -35,4 +37,32 @@ class User(Base):
             return value
         else:
             return hashlib.md5(salt + hashlib.md5(value).hexdigest()).hexdigest()
+
+    def login(self):
+        session = web.config._session
+        if session.login > Roles.GUEST:
+            return 0
+
+        if self.id:
+            session.login = Roles.AUTHROIZED
+            session.user = self
+            return 0
+
+        user = web.ctx.orm.query(User).filter(User.email==self.email).first()
+        if user:
+            if user.password == self.password:
+                session.login = Roles.AUTHROIZED
+                session.user = user
+                return 0
+            else:
+                return 1    #password is invalid
+        else:
+            return 2    #user doesn't exists
+
+
+    def is_guest(self):
+        pass
+
+    def logout(self):
+        pass
 

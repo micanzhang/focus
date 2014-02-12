@@ -4,17 +4,22 @@
 
 {% block content %}
 
-<div>
-    <form action="/post" method="POST" class="form-control">
-
-        <textarea name="content"></textarea>
+<div class="row">
+    <div class="col-lg-8 col-lg-offset-2">
+    <form action="/post" method="POST" class="form">
+        <input name="position" type="text" class="form-control">
+        <textarea class="form-control" name="content"></textarea>
         <input type="submit" value="Submit" class="btn btn-primary">
     </form>
+
 {% for post in posts %}
-    <div class="alert alert-info">
-    {{post.content}}
+    <div class="bs-callout bs-callout-info">
+        <small class="text-muted">{{post.create_time|strftime}}</small>
+        <a href="/@{{post.username}}" ><h4>{{post.username}}</h4></a>
+    <p class=""> {{post.content}} </p>
     </div>
 {% endfor %}
+    </div>
 </div>
 {% endblock %}
 

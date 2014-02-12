@@ -1,7 +1,7 @@
 __author__ = 'micanzhang'
 
 from app.helper import BaseAction
-from app.model import Post, PostTopic, Mention, User
+from app.model import Post, PostTopic, Mention, User, PostGeo
 import web
 import time
 
@@ -29,6 +29,17 @@ class PostAction(BaseAction):
         web.ctx.orm.add(p)
         web.ctx.orm.flush()
 
+        if 'position' in data:
+            (lat, lng) = data.position.split(',')
+            if lat and lng:
+                geo = PostGeo(
+                    post_id=p.id,
+                    lat=lat,
+                    lng=lng
+                )
+                web.ctx.orm.add(geo)
+
+
         for topic in topics:
             post_topic = PostTopic(
                 post_id=p.id,
@@ -37,7 +48,7 @@ class PostAction(BaseAction):
             web.ctx.orm.add(post_topic)
 
         mentions = Post.parse_mention(content)
-        users = web.ctx.orm.query(User).filter(User.username.in_(mentions)).all()
+        users = web.ctx.orm.query(User).filter(User.username.in_(mentions)).all() if len(mentions) > 0 else []
         for user in users:
              mention = Mention(
                  username=user.username,
