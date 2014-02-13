@@ -13,6 +13,7 @@ class Post(Base):
 
     id = Column(mysql.INTEGER, primary_key=True)
     username = Column(mysql.VARCHAR(32))
+    author = Column(mysql.VARCHAR(32))
     content = Column(mysql.VARCHAR(255))
     create_time = Column(mysql.INTEGER, default=int(time.time()))
 

@@ -30,4 +30,5 @@ class BaseAction:
         )
         jinja_env.globals.update(globals)
         jinja_env.filters['strftime'] = filter.strftime
+        jinja_env.filters['decorate'] = filter.decorate
         return jinja_env.get_template(template_name).render(context)

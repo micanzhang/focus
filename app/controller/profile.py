@@ -9,7 +9,7 @@ class ViewAction(BaseAction):
     def GET(self, username):
         user = web.ctx.orm.query(User).filter(User.username==username).first()
         if not user:
-               raise web.notfound
+               return web.notfound()
 
         posts = web.ctx.orm.query(Post).filter(Post.username==username).all()
         mention_posts = web.ctx.orm.query(Post).join(Mention, and_(Post.id==Mention.post_id, Mention.username==username)).all()

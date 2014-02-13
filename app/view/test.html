@@ -1,0 +1,122 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>输入提示</title>
+    <link rel="stylesheet" type="text/css" href="http://api.amap.com/Public/css/demo.Default.css" />
+    <script language="javascript" src="http://webapi.amap.com/maps?v=1.2&key=29f7e79c595647c731962bbc7f041161"></script>
+    <script language="javascript">
+        var mapObj;
+        //地图加载
+        function mapInit() {
+            var opt = {
+                center: new AMap.LngLat(116.397428, 39.90923) //设置地图中心点
+            }
+            mapObj = new AMap.Map("iCenter", opt);
+
+            if (navigator.userAgent.indexOf("MSIE") > 0) {
+                document.getElementById("keyword").onpropertychange = autoSearch;
+            }
+            else {
+                document.getElementById("keyword").oninput = autoSearch;
+            }
+        }
+        //输入提示
+        function autoSearch() {
+            var keywords = document.getElementById("keyword").value;
+            var auto;
+            //加载输入提示插件
+            mapObj.plugin(["AMap.Autocomplete"], function() {
+                var autoOptions = {
+                    city: "" //城市，默认全国
+                };
+                auto = new AMap.Autocomplete(autoOptions);
+                //查询成功时返回查询结果
+                if ( keywords.length > 0) {
+                    AMap.event.addListener(auto,"complete",autocomplete_CallBack);
+                    auto.search(keywords);
+                }
+                else {
+                    document.getElementById("result1").style.display = "none";
+                }
+            });
+        }
+        function autocomplete_CallBack(data) {
+            console.dir(data);
+            var resultStr = "";
+            var tipArr = [];
+            tipArr = data.tips;
+            if (tipArr.length>0) {
+                for (var i = 0; i < tipArr.length; i++) {
+                    resultStr += "<div id='divid" + (i + 1) + "' onmouseover='openMarkerTipById1(" + (i + 1)
+                            + ",this)' onclick='selectResult(" + i + ")' onmouseout='onmouseout_MarkerStyle(" + (i + 1)
+                            + ",this)' style=\"font-size: 13px;cursor:pointer;padding:5px 5px 5px 5px;\">" + tipArr[i].name + "<span style='color:#C1C1C1;'>"+ tipArr[i].district + "</span></div>";
+                }
+            }
+            else  {
+                resultStr = " π__π 亲,人家找不到结果!<br />要不试试：<br />1.请确保所有字词拼写正确。<br />2.尝试不同的关键字。<br />3.尝试更宽泛的关键字。";
+            }
+            document.getElementById("result1").innerHTML = resultStr;
+            document.getElementById("result1").style.display = "block";
+        }
+        //鼠标移入时样式
+        function openMarkerTipById1(pointid, thiss) {
+            thiss.style.background = '#CAE1FF';
+        }
+        //鼠标移开后样式恢复
+        function onmouseout_MarkerStyle(pointid, thiss) {
+            thiss.style.background = "";
+        }
+        //选择输入提示关键字
+        function selectResult(index) {
+            if (navigator.userAgent.indexOf("MSIE") > 0) {
+                document.getElementById("keyword").onpropertychange = null;
+                document.getElementById("keyword").onfocus = focus_callback;
+            }
+            //截取输入提示的关键字部分
+            var text = document.getElementById("divid" + (index + 1)).innerHTML.replace(/<[^>].*?>.*<\/[^>].*?>/g,"");
+            console.log(text);
+            get_geocode(text);
+            document.getElementById("keyword").value = text;
+            document.getElementById("result1").style.display = "none";
+        }
+
+        function focus_callback() {
+            if (navigator.userAgent.indexOf("MSIE") > 0) {
+                document.getElementById("keyword").onpropertychange = autoSearch;
+            }
+        }
+
+        function get_geocode(address) {
+
+            var geocoder;
+//加载地理编码插件
+            mapObj.plugin(["AMap.Geocoder"], function() { //加载地理编码插件
+                geocoder = new AMap.Geocoder({
+                    radius: 1000, //以已知坐标为中心点，radius为半径，返回范围内兴趣点和道路信息
+                    extensions: "all" //返回地址描述以及附近兴趣点和道路信息，默认“base”
+                });
+                //返回地理编码结果
+                AMap.event.addListener(geocoder, "complete", geocoder_CallBack);
+                //逆地理编码
+                //geocoder.getAddress(new AMap.LngLat(116.359119, 39.972121));
+                geocoder.getLocation("南京路");
+            });
+        }
+
+        function geocoder_CallBack(data) {
+            console.dir(data);
+        }
+
+    </script>
+</head>
+<body onload="mapInit();">
+<div id="iCenter" style="display:none" ></div>
+<div class="demo_box">
+    <b>请输入关键字：</b>
+    <input type="text" id="keyword" name="keyword" value="" style="width: 95%;"/>
+    <div id="result1" name="result1" style="overflow: auto; width: 95%; border: 1px solid gray;display: none;"></div>
+    <div id="result"></div>
+</div>
+</body>
+</html>

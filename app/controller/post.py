@@ -18,6 +18,7 @@ class PostAction(BaseAction):
         content = data['content']
         p = Post(
             username=self.session.user.username,
+            author=self.session.user.username,
             content=content,
             create_time=int(time.time())
         )
@@ -30,7 +31,8 @@ class PostAction(BaseAction):
         web.ctx.orm.flush()
 
         if 'position' in data:
-            (lat, lng) = data.position.split(',')
+            geodata = data.position.split(',')
+            (lat, lng) = geodata if len(geodata) == 2 else (None, None)
             if lat and lng:
                 geo = PostGeo(
                     post_id=p.id,
@@ -56,5 +58,21 @@ class PostAction(BaseAction):
              )
              web.ctx.orm.add(mention)
 
-        web.seeother('/post')
+        return web.seeother('/post')
+
+class RePostAction(BaseAction):
+    def POST(self, id):
+        username = self.session.user.username
+        post = web.ctx.orm.query(Post).filter(Post.id==id).first()
+        if post:
+            n_post = Post(
+                username=username,
+                author=post.username,
+                content=post.content
+            )
+
+            web.ctx.orm.add(n_post)
+            return web.seeother('/post')
+        else:
+            return web.internalerror()
 
