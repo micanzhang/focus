@@ -3,10 +3,7 @@ __author__ = 'micanzhang'
 import datetime
 from sqlalchemy import Column
 from sqlalchemy.dialects import mysql
-
-from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
+from app.model.model import Base
 
 class DBSession(Base):
     __tablename__ = 'session'

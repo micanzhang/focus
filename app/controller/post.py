@@ -1,9 +1,10 @@
 __author__ = 'micanzhang'
 
-from app.helper import BaseAction
-from app.model import Post, PostTopic, Mention, User, PostGeo
+from app.helper import BaseAction, ApiAction
+from app.model import Post, PostTopic, Mention, User, postGeo
 import web
 import time
+from app.model.model import sqla_json
 
 class PostAction(BaseAction):
     def GET(self):
@@ -34,7 +35,7 @@ class PostAction(BaseAction):
             geodata = data.position.split(',')
             (lat, lng) = geodata if len(geodata) == 2 else (None, None)
             if lat and lng:
-                geo = PostGeo(
+                geo = postGeo(
                     post_id=p.id,
                     lat=lat,
                     lng=lng
@@ -76,3 +77,26 @@ class RePostAction(BaseAction):
         else:
             return web.internalerror()
 
+
+class CreateAction(ApiAction):
+    def POST(self):
+        return self.render()
+
+class ReadAction(ApiAction):
+    def GET(self, id):
+        post = web.ctx.orm.query(Post).filter(Post.id==id).first()
+        print sqla_json(post)
+        if post:
+            print post._sa_class_manager.mapper.mapped_table.columns
+            print {key.name: getattr(post, key.name) for key in post._sa_class_manager.mapper.mapped_table.columns} #post.__dict__
+        return self.render()
+
+class DeleteAction(ApiAction):
+    def POST(self, id):
+        return self.render()
+
+class ListAction(ApiAction):
+    def GET(self):
+        posts = web.ctx.orm.query(Post).all()
+        self.response.data = sqla_json(posts)
+        return self.render()

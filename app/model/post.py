@@ -2,11 +2,10 @@ __author__ = 'micanzhang'
 
 from sqlalchemy import Column
 from sqlalchemy.dialects import mysql
-from sqlalchemy.ext.declarative import declarative_base
 import time
 import re
 
-Base = declarative_base()
+from app.model.model import Base
 
 class Post(Base):
     __tablename__ = 'post'
