@@ -4,3 +4,7 @@ require.config({
       "bootstrap" : "bootstrap.min"
   }
 });
+
+require(['jquery', 'bootstrap'], function($, _){
+    //$(".alert").alert('close');
+})

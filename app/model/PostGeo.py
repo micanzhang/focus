@@ -10,3 +10,4 @@ class PostGeo(Base):
     post_id = Column(mysql.INTEGER, primary_key=True)
     lat = Column(mysql.FLOAT(10, 6))
     lng = Column(mysql.FLOAT(10, 6))
+    address = Column(mysql.VARCHAR(255))

@@ -13,8 +13,7 @@ urls = (
     '/@([\w]+)/following', 'app.controller.follow.FollowingAction',
     '/@([\w]+)/follower', 'app.controller.follow.FollowerAction',
     '/test/?', 'app.controller.site.TestAction',
-    '/post/create/?', 'app.controller.post.CreateAction',
-    '/post/read/([0-9]+)/?', 'app.controller.post.ReadAction',
+    '/post/([0-9]+)/?', 'app.controller.post.ReadUpdateAction',
     '/post/delete/([0-9]+)/?', 'app.controller.post.DeleteAction',
-    '/post/?', 'app.controller.post.ListAction',
+    '/post/?', 'app.controller.post.ListCreateAction',
 )

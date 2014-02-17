@@ -1,3 +1,5 @@
+{% import "m_post.html" as m_post %}
+
 {% extends 'base.html' %}
 
 {% block title %} Focus - post{% endblock %}
@@ -8,25 +10,13 @@
 </div>
 
 <div class="row">
-    <div class="col-lg-8 col-lg-offset-2">
     <form action="/post" method="POST" class="form">
         <input name="position" type="text" class="form-control">
         <textarea class="form-control" name="content"></textarea>
         <input type="submit" value="Submit" class="btn btn-primary">
     </form>
 
-{% for post in posts %}
-    <div class="bs-callout bs-callout-info">
-        <small class="text-muted">{{post.create_time|strftime}}</small>
-        <a href="/@{{post.username}}" ><h4>{{post.username}}</h4></a>
-    <p class=""> {{post.content|decorate}} </p>
-    </div>
-{% endfor %}
-    </div>
+    {{ m_post.list(posts) }}
 </div>
-
-<script>
-    $('')
-</script>
 {% endblock %}
 
