@@ -1,7 +1,7 @@
 __author__ = 'micanzhang'
 
 from app.helper import BaseAction
-from app.model import Post, PostTopic, Mention, User, PostGeo
+from app.model import Post, PostTopic, Mention, User, postGeo
 import web
 import time
 
@@ -34,7 +34,7 @@ class PostAction(BaseAction):
             geodata = data.position.split(',')
             (lat, lng) = geodata if len(geodata) == 2 else (None, None)
             if lat and lng:
-                geo = PostGeo(
+                geo = postGeo(
                     post_id=p.id,
                     lat=lat,
                     lng=lng

@@ -1,4 +1,4 @@
-from app.model import Post, User, PostGeo
+from app.model import Post, User, postGeo
 from app.helper import BaseAction
 from app.constants import Roles
 import web
