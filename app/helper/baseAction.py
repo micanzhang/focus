@@ -5,6 +5,7 @@ import os
 from app.constants import Roles
 from jinja2 import Environment,FileSystemLoader
 from app.helper import filter
+from app.constants import ResponseStatus, Response
 
 class BaseAction:
     access_role = Roles.AUTHROIZED
@@ -32,3 +33,12 @@ class BaseAction:
         jinja_env.filters['strftime'] = filter.strftime
         jinja_env.filters['decorate'] = filter.decorate
         return jinja_env.get_template(template_name).render(context)
+
+
+class ApiAction(BaseAction):
+    def __init__(self):
+        BaseAction.__init__(self)
+        self.response = Response()
+
+    def render(self):
+        return self.response.json()

@@ -2,7 +2,7 @@ __author__ = 'micanzhang'
 
 import web
 from sqlalchemy.orm import scoped_session, sessionmaker
-from baseAction import BaseAction
+from baseAction import BaseAction, ApiAction
 from sqlalchemy import create_engine
 from app.constants import DB_USERNAME, DB_HOST, DB_NAME, DB_PASSWORD
 from DBStore import SQLAStore

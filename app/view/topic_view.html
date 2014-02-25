@@ -1,15 +1,13 @@
+{% import "m_post.html" as m_post %}
 {% extends 'base.html' %}
 
 {% block title %} Focus events!{% endblock %}
 
 {% block content %}
-<h2>Topic ##</h2>
+<div class="row">
+    <h2>Topic #{{topic}}#</h2>
 
-{% for post in posts %}
-<div class="alert alert-info">
-    {{post.content}}
+    {{ m_post.list(posts) }}
 </div>
-{% endfor %}
-
 {% endblock %}
 

@@ -2,14 +2,13 @@ __author__ = 'micanzhang'
 
 from sqlalchemy import Column
 from sqlalchemy.dialects import mysql
-from sqlalchemy.ext.declarative import declarative_base
+from app.model.model import Base
 from sqlalchemy.ext.hybrid import hybrid_property
 import hashlib
 import time
 import web
 from app.constants import Roles
 
-Base = declarative_base()
 
 class User(Base):
     __tablename__ = 'user'
@@ -65,4 +64,3 @@ class User(Base):
 
     def logout(self):
         pass
-

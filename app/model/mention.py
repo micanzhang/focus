@@ -2,9 +2,7 @@ __author__ = 'micanzhang'
 
 from sqlalchemy import Column
 from sqlalchemy.dialects import mysql
-from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
+from app.model.model import Base
 
 class Mention(Base):
     __tablename__ = 'mention'

@@ -1,0 +1,19 @@
+{% macro list(posts) -%}
+<ul class="list-unstyled img-rounded" style="background-color: #FFFFFF;">
+    {% for post in posts %}
+    <li class="" style="padding:16px 10px;border-bottom:1px solid #d5d5d5;">
+        <div class="media">
+            <a class="pull-left" href="/@{{post.username}}">
+                <img class="img-rounded" src="http://tp1.sinaimg.cn/2859364232/50/5686923812/0">
+            </a>
+
+            <div class="media-body">
+                <h4 class="media-heading"><a href="/@{{post.username}}" >{{post.username}}</a> @{{post.username}}</h4>
+                <p class=""> {{post.content|decorate}} </p>
+                <small class="text-muted" data-toggle="tooltip" data-placement="bottom" title="{{post.create_time|strftime}}">{{post.create_time|strftime}}</small>
+            </div>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+{%- endmacro %}

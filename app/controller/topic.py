@@ -20,4 +20,4 @@ class ViewAction(BaseAction):
 
         posts = web.ctx.orm.query(Post).filter(Post.id.in_(posts_id)).all()
 
-        return self.render('topic_view.html', posts=posts)
+        return self.render('topic_view.html', topic=topic_content, posts=posts)
